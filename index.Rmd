@@ -14,4 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 You have navigated to a web-based portfolio of work I've completed as a part of a computational biology class at the University of Vermont. 
 
-[Homework02](Homework02.html)
+## [Homework02](Homework02.html)
+
+This assignment proves I can build a webpage and contains a fun fact about myself.
