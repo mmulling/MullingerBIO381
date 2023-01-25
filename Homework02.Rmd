@@ -1,0 +1,14 @@
+---
+title: "Homework02"
+author: "Mark D. Mullinger"
+date: "2023-01-25"
+output: 
+  html_document: 
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Fun fact about me: 
