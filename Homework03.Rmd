@@ -1,0 +1,173 @@
+---
+title: "Homework03"
+author: "Mark D. Mullinger"
+date: "2023-02-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# regular expressions
+
+1.
+
+**input:**
+```
+First String    Second      1.22      3.4
+Second          More Text   1.555555  2.2220
+Third           x           3         124
+```
+**output:**
+```
+First String,Second,1.22,3.4
+Second,More Text,1.555555,2.2220
+Third,x,3,124
+```
+
+**find:** ```\s\s+```
+
+**replace:** ```,```
+
+**explanation:** In order to turn this input into a good ```.csv``` file, first I did a find search for all places where there are two or more spaces by typing a backslash s twice with a plus sign at the end. I wanted all of these spaces just replaced with a single comma for each instance, so for the replace command I just typed in a single comma.
+
+2.
+
+**input:**
+```
+Ballif, Bryan, University of Vermont
+Ellison, Aaron, Harvard Forest
+Record, Sydne, Bryn Mawr
+```
+
+**output:**
+```
+Bryan Ballif (University of Vermont)
+Aaron Ellison (Harvard Forest)
+Sydne Record (Bryn Mawr)
+```
+
+**find:** ```(\w+),\s(\w+),\s(\w+.*)```
+
+**replace:** ```\2 \1 (\3)```
+
+**explanation:** In order to remove the commas from this string first I needed to find all the places with a comma and a space using ```,\s``` and replaced them by including single spaces in my replace statement. Next I had to capture each of the words/groups of words, and then change the order they appear in. To do this first I used the capture function to locate these words ```(\w+)``` and then in order to capture the multiple words at the end of the line I typed in the "all the rest" command of ```.*```. To finish it off I typed ```\1``` *etc.* in the order I wanted with the numeral corresponding to the order I captured in.
+
+3.
+
+**input:**
+```
+0001 Georgia Horseshoe.mp3 0002 Billy In The Lowground.mp3 0003 Winder Slide.mp3 0004 Walking Cane.mp3
+```
+
+**output:**
+```
+0001 Georgia Horseshoe.mp3
+0002 Billy In The Lowground.mp3
+0003 Winder Slide.mp3
+0004 Walking Cane.mp3
+```
+
+**find:** ```\s(\d+)```
+
+**replace:** ```\n\1```
+
+**explanation:** In order to get each track (including track number) on it's own line, first I needed to find what separated each track, *i.e.* a single space followed by numerical values ```\s\d+```. Next, I needed to capture everything which follows the numbers until another space plus numbers appeared using ```()```. Finally, in my replace statement I replaced the spaces with line breaks ```\n```, followed by the captured string indicated by ```\1```.
+
+4.
+
+**input:**
+```
+0001 Georgia Horseshoe.mp3
+0002 Billy In The Lowground.mp3
+0003 Winder Slide.mp3
+0004 Walking Cane.mp3
+```
+
+**output:**
+```
+Georgia Horseshoe_0001.mp3
+Billy In The Lowground_0002.mp3
+Winder Slide_0003.mp3
+Walking Cane_0004.mp3
+```
+
+**find:** ```(\d+) (\w+.*)\.```
+
+**replace:** ```\2_\1\.```
+
+**explanation:** In order to move the track number from the start of each line to just before the .mp3 part of the file name, first I had to find that string of digits using ```\d+``` with a space after it. Next, I found where I wanted to move those numbers to. I did this by finding the literal period in each line which follows the title of the track like so ```\w.*\.```. Finally, in order to move things around where I wanted them to go, I used the capture function and switched the order of the title and track number, also adding an underscore to separate the title from the number. 
+
+5.
+
+**input:**
+```
+Camponotus,pennsylvanicus,10.2,44
+Camponotus,herculeanus,10.5,3
+Myrmica,punctiventris,12.2,4
+Lasius,neoniger,3.3,55
+```
+
+**output:**
+```
+C_pennsylvanicus,44
+C_herculeanus,3
+M_punctiventris,4
+L_neoniger,55
+```
+
+**find:** ```(\w)\w+,(\w+),\d+\.\d+,(\d+)```
+
+**replace:** ```\1_\2,\3```
+
+**explanation:** This one was relatively simple as the order of the content here never changed. To start, I identified the first letter of each generic epithet with ```\w\w+``` followed by a comma. Next, I identified the entire specific epithet with another ```\w+``` again followed by a comma. In order to remove the first set of numbers which include a decimal, I first identified those using ```\d+\.\d+``` flanked by the commas found there. Then I found the last numeral of each line which I wanted to keep by adding ```\d+```. Now for the captures, I placed parentheses around each opject I wanted to keep: the first letter of the generic epithet, the entire specific epithet, and finally that last numeral. For the replace command, first I listed each of those captured items in order like so ```\1\2\3```. To finish it off I added the punctuation I wanted to keep: an underscore in between one and two, and a comma between two and three.
+
+6.
+
+**input:**
+```
+Camponotus,pennsylvanicus,10.2,44
+Camponotus,herculeanus,10.5,3
+Myrmica,punctiventris,12.2,4
+Lasius,neoniger,3.3,55
+```
+
+**output:**
+```
+C_penn,44
+C_herc,3
+M_punc,4
+L_neon,55
+```
+
+**find:** ```(\w)\w+,(\w{4})\w+,\d+\.\d+,(\d+)```
+
+**replace:** ```\1_\2,\3```
+
+**explanation:** This problem is a slight variation of number 5. In order to abbreviate the specific epithet to only the first four letters, I added ```(\w{4})``` where indicated to capture exactly the first four letters of the epithet. Next I added an additional ```\w+``` after this capture in order to indicate that I wanted to get rid of the other letters *i.e* replace them with the comma in between captures two and three.
+
+7.
+
+**input:**
+```
+Camponotus,pennsylvanicus,10.2,44
+Camponotus,herculeanus,10.5,3
+Myrmica,punctiventris,12.2,4
+Lasius,neoniger,3.3,55
+```
+
+**output:**
+```
+Campen, 44, 10.2
+Camher, 3, 10.5
+Myrpun, 4, 12.2
+Lasneo, 55, 3.3
+```
+
+**find:** ```(\w{3})\w+,(\w{3})\w+,(\d+\.\d+),(\d+)```
+
+**replace:** ```\1\2, \4, \3```
+
+**explanation:** This last problem is another variation on the two before. This time, I wanted to keep the first three letters of both the generic and specific epithet and change the order of the numeric values at the end. I accomplished this first with a repetition of ```(\w{3})\w+,(\w{3})\w+,``` to capture those first three letters of each word. Next, I captured each of the numeric values seperately using parentheses. In the replace statement I removed anything which might separate those six (total) letters I captured. Then I switched the order of the numeric values by listing the fourth captured item before the third with a comma and space in between like this ```\4, \3```.
+
