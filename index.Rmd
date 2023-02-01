@@ -17,3 +17,8 @@ You have navigated to a web-based portfolio of work I've completed as a part of 
 ## [Homework02](Homework02.html)
 
 This assignment proves I can build a webpage and contains a fun fact about myself.
+
+## [Homework03](Homework03.html)
+
+In this assignment we explored how to use regular expressions in a plain text editor to make quick edits to large data sets. These expressions are used mostly in cleaning and preparing data files to be analyzed.
+
