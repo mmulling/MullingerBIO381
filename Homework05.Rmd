@@ -1,0 +1,123 @@
+---
+title: "Homework05"
+author: "Mark D. Mullinger"
+date: "2023-02-15"
+output: html_document
+---
+
+This assignment covers working with matrices, lists, and data frames in R.
+
+1. 
+First I set up my ndims vactor as a list of random integers from 3 to 10.
+```
+ndims <- runif(1, min=3, max=10)
+print(ndims)
+ndims <- as.integer(ndims)
+print(ndims)
+```
+Second, I created a vector from 1 to ndims squared.
+```
+v <- seq(from=1, to=ndims^2)
+print(v)
+```
+Third, I used sample to randomly re-shuffle values
+```
+vmix <- sample(v)
+print(vmix)
+```
+Fourth, I created a square matrix of these elements by setting the row number to the vector, and then printed it
+```
+vmat <- matrix(data=vmix, nrow=ndims)
+print(vmat)
+```
+Fifth, I transposed that matrix using t() and printed that matrix
+```
+tpose <- t(vmat)
+print(tpose)
+```
+Sixth, I wrote several lines of code to find the sum and mean values of the first and last rows of the matrix. To do this, I saved the sums as sumfirst/last, and the means as mefirst/last. I did this by subsetting the matrix using a comma to indicate the row number.
+```
+sumfirst <- sum(tpose[1,])
+print(sumfirst)
+sumlast <- sum(tpose[ndims,])
+print(sumlast)
+mefirst <- mean(tpose[1,])
+print(mefirst)
+melast <- mean(tpose[ndims,])
+print(melast)
+```
+Seventh, I applied the eigen() function to my matrix and found the type for elements within as being lists.
+```
+em <- eigen(tpose)
+typeof(em[1])
+```
+Finally, it is all set up that when the code is run it will return a square matrix of a different size every time. 
+
+2.
+To create the list I need, first I wrote code to make each component. Starting with the 4x4 matrix, which needs a total size of 16 elements to have the right number of rows/columns. Next was the logical vector which I decided would find all values less than or equal to 55 out of a 100 element vector of random uniform values. Third was the letters, which I sampled to scramble the order. Finally I used the list() function to put it all together.
+```
+v <- runif(16, min=1, max=100)
+print(v)
+mymatrix <- matrix(data=v, nrow=4)
+print(mymatrix)
+
+vec <- runif(100, min=1, max=100)
+mylogical <- vec<=55
+print(mylogical)
+
+myletters <- sample(letters, 26)
+print(myletters)
+```
+Next I created a new list by taking the second element from each list component (2,2 for the matrix).
+```
+mylist <- list(mymatrix[2,2], mylogical[2], myletters[2])
+print(mylist)
+```
+After running the following code, I found that each data type could still be found as double, logical, and character respectively.
+```
+typeof(mylist[[1]])
+typeof(mylist[[2]])
+typeof(mylist[[3]])
+```
+After combining each of these elements into a new vector, and calling the typeof() function again, I found the new data type to be character. 
+```
+newv <- c(mylist[[1]],mylist[[2]],mylist[[3]])
+print(newv)
+typeof(newv)
+```
+
+3.
+First, I needed to create a variable with 26 random values for a data frame using runif(), which generates random uniform values. Next, I created a second variable, which was a random-ordered list of all capital english letters from A - Z. I acheived the random order by using the sample() function. 
+```
+myunis <- runif(26, min=0, max=10)
+myletters <- sample(LETTERS)
+```
+Next, I generated a data frame out of those variables using data.frame()
+```
+df <- data.frame(myunis,myletters)
+print(df)
+```
+Then I wrote a single line of code to randomly replace four "myunis" values with NA. I achieved this with sample() function for the random selection, specifying the correct column and assigning NA to the whole thing.
+```
+df[sample(1:length(df[ ,"myunis"]), 4), 1] <- NA
+print(df)
+```
+The following single line of code was written to identify the positions of the NA values in the data frame. I used the which() function for this, calling in the column of the data frame with missing values.
+```
+missing <- which(is.na(df[ ,"myunis"]))
+print(missing)
+```
+In order to re-order the data frame according to alphabetical letters in the second list, I used the order() function and specified the "letters" column to sort by.
+```
+df <- df[order(df$"myletters"),]
+print(df)
+```
+Finally, I needed to find the mean of the values of the first column. To do this, first I removed the missing data with the complete.cases() function
+```
+df[complete.cases(df$"myunis"),]
+```
+Next, to find the mean I used the mean() function and made sure to set na.rm=TRUE, in order to remove the missing values and calculate the mean.
+```
+mean(df$myunis, na.rm=TRUE)
+```
+
