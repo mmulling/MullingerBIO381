@@ -24,7 +24,9 @@ In this assignment we explored how to use regular expressions in a plain text ed
 
 ## [Homework04](Homework04.html)
 
-This week's assignment involved some practice manipulating vectors in R
+This week's assignment involved some practice manipulating vectors in R.
 
+## [Homework05](Homework05.html)
 
+Homework number 5 was all about matrices, lists, and data frames (and how to manupulate them).
 
