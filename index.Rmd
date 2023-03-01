@@ -30,3 +30,6 @@ This week's assignment involved some practice manipulating vectors in R.
 
 Homework number 5 was all about matrices, lists, and data frames (and how to manupulate them).
 
+## [Homework06](Homework06.html)
+
+Homework six we took a look at the ```dplyr``` package and how to manipulate data frames with it

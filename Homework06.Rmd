@@ -1,0 +1,90 @@
+---
+title: "Homework06"
+author: "Mark D. Mullinger"
+date: "2023-03-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. The *Iris* data set contains 5 variables for 150 individuals.
+
+2. The newly created iris1 now contains the original 5 variables, but only for 56 of the individuals. The following code features the ```filter()``` function to achieve this:
+```
+iris1 <- filter(iris, 
+                Sepal.Length>6, 
+                Sepal.Width>2.5, 
+                Species %in% c("versicolor", "virginica"))
+```
+The code first calls the function, then specifies the data set as ```iris```. Next, to filter for the sepal dimensions, each of those column names were called with the desired operator. Finally, to select only *I. versicolor* and *I. virginica* I used the ```%in%``` followed by the concatinated specific epithets I'm looking for.
+
+3. The new data frame in this problem is a selection of three columns from the altered data frame ```iris2```. The ```select()``` function works by first calling the data, and then listing what you want to select, in this case being the specific epithet, sepal length, and sepal width. There are only 3 variables in this new data frame, for the 56 individuals labeled *I. versicolor* or *I. virginica*
+```
+iris2 <- select(iris1,
+                Species,
+                Sepal.Length,
+                Sepal.Width)
+```
+
+4. The next alteration involved re-ordering these data from largest to smallest sepal length. This was achieved with the ```arrange``` function, first calling in the data and then ordering them by descending sepal length. To view the first 6 rows, the ```head()``` function was used. Interestingly, we can see that *I virginica* on a has the largest sepal lengths, but some *I versicolor* individuals do have longer sepals than some *I virginica* individuals. 
+```
+iris3 <- arrange(iris2,
+               by=desc(Sepal.Length))
+head(iris3)
+```
+
+5. For question 5 we created a new column for our data frame, which represents sepal area. This was achieved with the ```mutate()``` function, first calling in the data and then specifying a new column which is the length values multiplied by the width values for each individual. The new data frame has 4 variables for the same 56 individuals of *I. versicolor* and *I. virginica*.
+```
+iris4 <- mutate(iris3,
+                Sepal.Area=Sepal.Length*Sepal.Width)
+```
+
+6. Next, I created a new data frame with only the mean values for sepal length and sepal width, in addition to listing the sample size. I achieved this with the ```summarize()``` function, by first calling the data frame, and then preforming the desired operations with the appropriate new column labels. ```nrow()``` was used to determine the sample size by finding the number of rows for the summary.
+```
+iris5 <- summarize(iris4,
+                   Mean.Length=mean(Sepal.Length),
+                   Mean.Width=mean(Sepal.Width),
+                   Sample.Size=nrow(iris4))
+```
+
+7. Here, the same summary was created as in problem 6. However, this time the output was listed for each specied in the data. This was achieved by first applying the ```group_by()``` function to the data, and then running the same ```summarize()``` code as above.
+```
+iris6 <- group_by(iris4, Species)
+iris6 <- summarize(iris6,
+                   Mean.Length=mean(Sepal.Length),
+                   Mean.Width=mean(Sepal.Width),
+                   Sample.Size=nrow(iris4))
+```
+
+8. To synthesize the above skills, piping ```%>%``` was used to put all of these functions together and apply them to the original data a single time, rather than creating a new data frame for each step. While writing this, I needed to remove the calling of ```iris``` from all the functions except for the first line of code. 
+```
+irisFinal <- iris %>%
+  filter(Sepal.Length>6, 
+         Sepal.Width>2.5, 
+         Species %in% c("versicolor", "virginica"))%>%
+  select(Species,
+         Sepal.Length,
+         Sepal.Width)%>%
+  arrange(by=desc(Sepal.Length))%>%
+  mutate(Sepal.Area=Sepal.Length*Sepal.Width)%>%
+  group_by(Species)%>%
+  summarize(Mean.Length=mean(Sepal.Length),
+            Mean.Width=mean(Sepal.Width),
+            Sample.Size=nrow(iris4))
+```
+
+9. To lengthen the data frame, I applied the ```pivot_longer()``` function to the originial iris data. I selected all the columns from sepal length to petal width, and re-named those entries as Measure. Then I added the values for those columns in a new columns I called Value.
+```
+LongIris <- iris %>%
+  pivot_longer(cols=Sepal.Length:Petal.Width,
+               names_to = "Measure",
+               values_to = "Value")
+```
+
+
+
+
+
+
