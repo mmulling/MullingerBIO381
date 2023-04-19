@@ -32,4 +32,8 @@ Homework number 5 was all about matrices, lists, and data frames (and how to man
 
 ## [Homework06](Homework06.html)
 
-Homework six we took a look at the ```dplyr``` package and how to manipulate data frames with it
+Homework six we took a look at the ```dplyr``` package and how to manipulate data frames with it.
+
+## [Homework07](Homework07.html)
+
+Homework seven involved simulating data and fitting those data with distribution curved.

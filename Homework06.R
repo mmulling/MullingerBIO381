@@ -66,7 +66,10 @@ irisFinal
 iris
 
 LongIris <- iris %>%
-  pivot_longer(cols=Sepal.Length:Petal.Width)
+  pivot_longer(cols=Sepal.Length:Petal.Width,
+               names_to = "Measure",
+               values_to = "Value")
+LongIris
 
 
 
