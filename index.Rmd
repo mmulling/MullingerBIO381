@@ -41,3 +41,7 @@ Homework seven involved simulating data and fitting those data with distribution
 ## [Homework08](Homework08.html)
 
 This week's work involved constructing simulated data sets to find the statistical limits of hypotheses. 
+
+## [Homework10](Homework10.html)
+
+## [Homework12](Homework12.html)
