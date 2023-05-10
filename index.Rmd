@@ -37,3 +37,7 @@ Homework six we took a look at the ```dplyr``` package and how to manipulate dat
 ## [Homework07](Homework07.html)
 
 Homework seven involved simulating data and fitting those data with distribution curved.
+
+## [Homework08](Homework08.html)
+
+This week's work involved constructing simulated data sets to find the statistical limits of hypotheses. 

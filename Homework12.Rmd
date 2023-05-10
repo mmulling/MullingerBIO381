@@ -1,0 +1,29 @@
+---
+title: "Homework12"
+author: "Mark D. Mullinger"
+date: "2023-05-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1.
+```{r }
+library(ggplot2)
+
+df <-read.table(file="Phyllostachys.csv",
+                header=TRUE,
+                sep=",",
+                stringsAsFactors=FALSE)
+```
+
+```{r }
+g <- ggplot(data=df,
+            mapping=aes(x=floret, y=damage, fill=floret))+
+  geom_boxplot()
+
+print(g)
+```
+
