@@ -1,0 +1,112 @@
+---
+title: "Homework11"
+author: "Mark D. Mullinger"
+date: "2023-05-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Its not working properly but I've given it a shot, seems like I was only able to successfully simulate files for this batch proccessing regression analysis. 
+
+```{r }
+library(ggplot2)
+library(MASS) 
+Ph <- read.table("Phyllostachys.csv",header=TRUE,sep=",", stringsAsFactors=FALSE)
+
+# fitting Gamma distribution
+gammaPars <- fitdistr(Ph$floret,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+# simulating data to work with real data
+nSim = 100
+n <- length(Ph[,1])
+for (i in 1:nSim){
+  simu <- rgamma(n=n, shape=shapeML, rat=rateML)
+  simu <- data.frame(1:n, simu)
+  names(simu) <- list("ID", "floret")
+  write.csv(simu, paste("Homework11Files/","SimData_",i,".csv",sep=""), row.names=FALSE)
+}
+
+# regression model
+reg_stats <- function(d=NULL) {
+             if(is.null(d)) {
+               x_var <- runif(10)
+               y_var <- runif(10)
+               d <- data.frame(x_var,y_var)
+             }
+  . <- lm(data=d,d[,2]~d[,1])
+  . <- summary(.)
+  stats_list <- list(slope=.$coefficients[2,1],
+                    p_val=.$coefficients[2,4],
+                    r2=.$r.squared)
+  return(stats_list)
+
+}
+
+list.files("Homework11Files/")
+```
+
+I took this next batch processing code out of the R chunk, because the error I was getting prevented this page from being knit. The Error occured somewhere in the loop through individual files. 
+```
+#--------------------------------------------
+# Global variables
+file_folder <- "Homework11Files/"
+n_files <- 2
+file_out <- "StatsSummary.csv"
+#--------------------------------------------
+
+
+file_names <- list.files(path="Homework11Files/",
+                         pattern="*.csv")
+
+# Create data frame to hold file summary statistics
+ID <- seq_along(file_names)
+file_name <- file_names
+slope <- rep(NA,n_files)
+p_val <- rep(NA,n_files)
+r2 <- rep(NA,n_files)
+
+stats_out <- data.frame(ID,file_name,slope,p_val,r2)
+
+# batch process by looping through individual files
+for (i in seq_along(file_names)) {
+  data <- read.table(file=paste(file_folder,file_names[i],sep=""),
+                     sep=",",
+                     header=TRUE) # read in next data file
+  
+  d_clean <- data[complete.cases(data),] # get clean cases
+  
+  . <- reg_stats(d_clean) # pull regression stats from clean file
+  stats_out[i,3:5] <- unlist(.) # unlist, copy into last 3 columns
+  
+}
+# set up output file and incorporate time stamp and minimal metadata
+  write.table(cat("# Summary stats for ",
+                    "batch processing of regression models","\n",
+                    "# timestamp: ",as.character(Sys.time()),"\n",
+                    "# MDM","\n",
+                    "# ------------------------", "\n",
+                    "\n",
+                    file=file_out,
+                    row.names="",
+                    col.names="",
+                    sep=""))
+  
+# now add the data frame
+  write.table(x=stats_out,
+              file=file_out,
+              row.names=FALSE,
+              col.names=TRUE,
+              sep=",",
+              append=TRUE)
+  
+head(stats_out) 
+  
+```
+
+
+
