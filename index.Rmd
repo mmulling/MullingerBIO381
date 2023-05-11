@@ -44,4 +44,7 @@ This week's work involved constructing simulated data sets to find the statistic
 
 ## [Homework10](Homework10.html)
 
+## [Homework11](Homework11.html)
+
+
 ## [Homework12](Homework12.html)
